@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Donky Generative Fill</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Babel for in-browser JSX transpilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Load Environment Variables injected by Netlify -->
+    <script src="/env.js"></script>
+    <script>
+      // Safety fallback: ensure window.process exists even if env.js fails (e.g. local dev)
+      if (!window.process) {
+        window.process = { env: { API_KEY: '' } };
+        console.warn('Running in development mode or env.js missing. API_KEY may be undefined.');
+      }
+    </script>
+
     <style>
       /* Custom scrollbar for a cleaner look */
       ::-webkit-scrollbar {
@@ -36,5 +50,8 @@
 </head>
   <body class="bg-gray-950 text-gray-100 antialiased selection:bg-indigo-500 selection:text-white">
     <div id="root"></div>
+    
+    <!-- Main Entry Point: data-type="module" allows Babel to respect import maps -->
+    <script type="text/babel" data-type="module" src="./index.tsx"></script>
   </body>
 </html>

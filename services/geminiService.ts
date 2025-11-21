@@ -7,11 +7,15 @@ export const generateFill = async (
   imageDataBase64: string,
   prompt: string
 ): Promise<string> => {
-  if (!process.env.API_KEY) {
-    throw new Error("API Key is missing.");
+  // Retrieve API Key from global process (Node) or window.process (Browser/Netlify injection)
+  const apiKey = (typeof process !== "undefined" ? process.env.API_KEY : undefined) || 
+                 (window as any).process?.env?.API_KEY;
+
+  if (!apiKey) {
+    throw new Error("API Key is missing. Please check your environment configuration.");
   }
 
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const ai = new GoogleGenAI({ apiKey });
 
   // We clean the base64 string if it includes the data prefix
   const cleanBase64 = imageDataBase64.replace(/^data:image\/(png|jpeg|webp);base64,/, "");
