@@ -1,0 +1,5 @@
+{
+  "name": "Donky Generative Fill",
+  "description": "Advanced AI generative fill tool allowing users to mask image areas and replace them using text prompts.",
+  "requestFramePermissions": []
+}
